@@ -1,0 +1,25 @@
+import Huffman as hf
+import AES as aes
+import Vig_qw as vig
+plain_text=input("Enter plain text : ")
+vig_key=input("Enter vig key : ")
+vig_key=vig.generateKey(plain_text,vig_key)
+Vig_encryp_text=vig.vig_encrypt(plain_text,vig_key)
+print(Vig_encryp_text)
+# print(vig.vig_decrypt(Vig_encryp_text,key))
+print(aes.block_size)
+aes_key=input("Enter aes key :")
+aes_key = aes.hashlib.sha256(aes_key.encode()).digest()
+aes_encrypt=aes.encrypt(Vig_encryp_text,aes_key)
+print(aes_encrypt)
+print(type(aes_encrypt))
+# aes_decrypt=aes.decrypt(aes_encrypt,aes_key)
+# print(aes_decrypt)
+hf_enc,hf_tree=hf.HuffmanEncoding(aes_encrypt)
+# print(type(hf_tree))
+print(hf_enc)
+x=hf.HuffmanDecoding(hf_enc,hf_tree)
+aes_decrypt=aes.decrypt(x,aes_key)
+vig_decryp_text=vig.vig_decrypt(aes_decrypt,vig_key)
+print(vig_decryp_text)
+
